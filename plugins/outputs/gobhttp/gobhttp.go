@@ -12,11 +12,15 @@ import (
 
 type gobhttp struct {
 	Url string
+  Jwt string
 }
 
 var sampleConfig = `
   ## The full URL of HTTP end point to poste your data.
   url = ["http://localhost:9001/api"] # required
+
+  ## Additional a cookies jwt_token 
+  jwt = "=xxx.yyy.zzz"
 
   ## Write timeout for the http client, formatted as a string.
   ## If not provided, will default to 5s. 0s means no timeout (not recommended).
@@ -58,6 +62,8 @@ func (s *gobhttp) Write(metrics []telegraf.Metric) error {
   }
 
 	req, err := http.NewRequest("POST", s.Url, &b)
+  req.AddCookie(&http.Cookie{Name: "jwt_token", Value: s.Jwt})
+  
 	client := &http.Client{}
 	_, err = client.Do(req)
 	if err != nil {

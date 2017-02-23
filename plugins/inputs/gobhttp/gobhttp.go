@@ -145,8 +145,6 @@ func gobHandler(h *HTTPListener, w http.ResponseWriter, r *http.Request) {
   for _, rm := range m {
     h.acc.AddRaw(rm)
   }
-  
-  log.Printf("I! %v metrics decoded(%v...)\n", len(m), string(m[0].Name))
 }
 
 func init() {
