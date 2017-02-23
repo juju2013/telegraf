@@ -6,7 +6,7 @@ import (
 	"math/rand"
 	"strings"
 	"time"
-
+  
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/internal"
 	"github.com/influxdata/telegraf/metric"

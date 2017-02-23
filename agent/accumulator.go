@@ -6,6 +6,7 @@ import (
 
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/selfstat"
+	"github.com/influxdata/telegraf/metric"
 )
 
 var (
@@ -74,6 +75,11 @@ func (ac *accumulator) AddCounter(
 	if m := ac.maker.MakeMetric(measurement, fields, tags, telegraf.Counter, ac.getTime(t)); m != nil {
 		ac.metrics <- m
 	}
+}
+
+func (ac *accumulator) AddRaw(rm *telegraf.RawMetric) {
+  m := metric.Import(rm)
+  ac.metrics <- m
 }
 
 // AddError passes a runtime error to the accumulator.

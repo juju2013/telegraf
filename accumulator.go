@@ -28,6 +28,9 @@ type Accumulator interface {
 		tags map[string]string,
 		t ...time.Time)
 
+	// AddRaw add a RawMetric from metric.Export (and possibly send/received via gohttp)
+	AddRaw(rm *RawMetric)
+
 	SetPrecision(precision, interval time.Duration)
 
 	AddError(err error)

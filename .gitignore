@@ -1,7 +1,10 @@
 build
 tivan
 .vagrant
-/telegraf
 .idea
 *~
 *#
+cmd/telegraf/receiver.conf
+cmd/telegraf/sender.conf
+/telegraf
+cmd/telegraf/telegraf

@@ -8,12 +8,22 @@ import (
 type ValueType int
 
 // Possible values for the ValueType enum.
-const (
+  const (
 	_ ValueType = iota
 	Counter
 	Gauge
 	Untyped
 )
+
+type RawMetric struct {
+	Name   []byte
+	Tags   []byte
+	Fields []byte
+	T      []byte
+
+	MType     ValueType
+	Aggregate bool
+}
 
 type Metric interface {
 	// Serialize serializes the metric into a line-protocol byte buffer,
@@ -59,4 +69,7 @@ type Metric interface {
 	// aggregator things:
 	SetAggregate(bool)
 	IsAggregate() bool
+  
+  // Import/Export raw metric (for gobhttp)
+  Export() *RawMetric
 }
