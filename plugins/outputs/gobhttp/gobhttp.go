@@ -5,6 +5,7 @@ import (
 	"encoding/gob"
 	"net/http"
   "log"
+  "errors"
   
 	"github.com/influxdata/telegraf"
 	"github.com/influxdata/telegraf/plugins/outputs"
@@ -65,11 +66,16 @@ func (s *gobhttp) Write(metrics []telegraf.Metric) error {
   req.AddCookie(&http.Cookie{Name: "jwt_token", Value: s.Jwt})
   
 	client := &http.Client{}
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
-  	log.Printf("W! Cannot send to %v@%v \n", s.Url, err)
+  	log.Printf("W! Cannot send to %v@%v", s.Url, err)
+    return err
 	}
   defer req.Body.Close()
+  if resp.StatusCode > 399 {
+  	log.Printf("W! Remote end error %v", resp.Status)
+    return errors.New(resp.Status)
+  }
 	return nil
 }
 
